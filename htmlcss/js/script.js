@@ -181,34 +181,30 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // PROJECT CATEGORIES
-document.addEventListener('DOMContentLoaded', () => {
-    const categoryButtons = document.querySelectorAll('.work_category');
-    const projectContainers = document.querySelectorAll('.work_content');
-    
-    if (categoryButtons.length && projectContainers.length) {
-        categoryButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons
-                categoryButtons.forEach(btn => btn.classList.remove('active'));
-                
-                // Add active class to clicked button
-                button.classList.add('active');
-                
-                // Get filter value
-                const filterValue = button.getAttribute('data-filter');
-                
-                // Hide all project containers
-                projectContainers.forEach(container => {
-                    container.classList.remove('active');
-                });
-                
-                // Show the selected container
-                if (filterValue === 'game') {
-                    document.getElementById('game-projects').classList.add('active');
-                } else if (filterValue === 'other') {
-                    document.getElementById('other-projects').classList.add('active');
+const categoryButtons = document.querySelectorAll('.work_category');
+const workCards = document.querySelectorAll('.work_card');
+
+categoryButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Aktif kategori butonunu güncelle
+        categoryButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        // Seçilen kategoriyi al
+        const selectedCategory = button.getAttribute('data-category');
+
+        // Kartları filtrele
+        workCards.forEach(card => {
+            if (selectedCategory === 'all') {
+                card.style.display = 'block';
+            } else {
+                const cardCategories = card.getAttribute('data-categories').split(',');
+                if (cardCategories.includes(selectedCategory)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
                 }
-            });
+            }
         });
-    }
+    });
 });
